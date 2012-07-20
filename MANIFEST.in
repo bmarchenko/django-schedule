@@ -1,0 +1,5 @@
+recursive-include docs *
+recursive-include schedule/templates *
+recursive-include schedule/conf *
+recursive-include schedule/models/fixtures *.json
+recursive-include project_sample *
