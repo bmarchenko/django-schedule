@@ -11,6 +11,7 @@ setup(
     url='http://github.com/thauber/django-schedule/tree/master',
     packages=[
         'schedule',
+        'schedule.conf',
         'schedule.feeds',
         'schedule.management',
         'schedule.management.commands',
