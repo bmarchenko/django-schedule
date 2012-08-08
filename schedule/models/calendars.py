@@ -9,7 +9,8 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from django.template.defaultfilters import slugify
 import datetime
 from dateutil import rrule
-from schedule.utils import EventListManager
+from schedule.utils import EventListManager, unique_slugify
+
 
 class CalendarManager(models.Manager):
     """
@@ -78,7 +79,7 @@ class CalendarManager(models.Manager):
                 calendar = Calendar(name = unicode(obj))
             else:
                 calendar = Calendar(name = name)
-            calendar.slug = slugify(calendar.name)
+            unique_slugify(calendar, calendar.name)
             calendar.save()
             calendar.create_relation(obj, distinction)
             return calendar
