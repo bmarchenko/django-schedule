@@ -11,10 +11,10 @@ def optionnal_calendar(sender, **kwargs):
         try:
             calendar = Calendar._default_manager.get(name='default')
         except Calendar.DoesNotExist:
-            calendar = Calendar(name='default', slug='default')
-            calendar.save()
-
+#            calendar = Calendar(name='default', slug='default')
+#            calendar.save()
+            pass
         event.calendar = calendar
     return True
 
-pre_save.connect(optionnal_calendar)
+#pre_save.connect(optionnal_calendar)

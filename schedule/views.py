@@ -260,7 +260,12 @@ def create_or_edit_event(request, calendar_slug, event_id=None, next=None,
         event = form.save(commit=False)
         if instance is None:
             event.creator = request.user
-            event.calendar = calendar
+        event.save()
+
+#        import ipdb; ipdb.set_trace()
+#        event.calendar = calendar
+        user_calendar = Calendar.objects.get_or_create_calendar_for_object(request.user)
+        event.calendars.add(calendar, user_calendar)
         event.save()
         next = next or reverse('event', args=[event.id])
         next = get_next_url(request, next)
@@ -285,7 +290,7 @@ def delete_event(request, event_id, next=None, login_required=True):
     # Lastly redirect to the event detail of the recently create event
     """
     event = get_object_or_404(Event, id=event_id)
-    next = next or reverse('day_calendar', args=[event.calendar.slug])
+    next = next or reverse('day_calendar', args=[event.calendars.all()[0].slug])
     next = get_next_url(request, next)
     return delete_object(request,
                          model = Event,

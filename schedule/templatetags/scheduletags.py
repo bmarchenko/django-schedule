@@ -66,9 +66,15 @@ def daily_table( context, day, width, width_slot, height, start=8, end=20, incre
 
 @register.inclusion_tag("schedule/_event_title.html", takes_context=True)
 def title(context, occurrence ):
-    context.update({
-        'occurrence' : occurrence,
-    })
+    user = context['request'].user
+    if CHECK_PERMISSION_FUNC(occurrence.event, user):
+        context.update({
+            'title' : occurrence.title,
+        })
+    else:
+        context.update({
+            'title' : '',
+            })
     return context
 
 @register.inclusion_tag("schedule/_event_options.html", takes_context=True)
@@ -84,7 +90,7 @@ def options(context, occurrence ):
         print context['edit_occurrence']
         context['cancel_occurrence'] = occurrence.get_cancel_url()
         context['delete_event'] = reverse('delete_event', args=(occurrence.event.id,))
-        context['edit_event'] = reverse('edit_event', args=(occurrence.event.calendar.slug, occurrence.event.id,))
+        context['edit_event'] = reverse('edit_event', args=(occurrence.event.calendars.all()[0].slug, occurrence.event.id,))
     else:
         context['edit_event'] = context['delete_event'] = ''
     return context
