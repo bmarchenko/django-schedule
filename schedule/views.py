@@ -32,6 +32,13 @@ def calendar(request, calendar_slug, template='schedule/calendar.html'):
         "calendar": calendar,
     }, context_instance=RequestContext(request))
 
+def mycalendars(request, template='schedule/mycalendars.html'):
+
+    object_list= Calendar.objects.get_calendars_for_object(request.user)
+    return render_to_response(template, {
+        "object_list": object_list,
+        }, context_instance=RequestContext(request))
+
 def calendar_by_periods(request, calendar_slug, periods=None,
     template_name="schedule/calendar_by_period.html"):
     """

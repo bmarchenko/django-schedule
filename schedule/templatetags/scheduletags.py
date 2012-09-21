@@ -68,12 +68,22 @@ def daily_table( context, day, width, width_slot, height, start=8, end=20, incre
 def title(context, occurrence ):
     user = context['request'].user
     if CHECK_PERMISSION_FUNC(occurrence.event, user):
+        calendars = occurrence.event.calendars.all()#.exclude(slug=context['calendar'].slug).exclude(slug=user)
+#        import ipdb; ipdb.set_trace()
+        calendars = calendars.exclude(slug=context['calendar'].slug)
+        calendars = calendars.exclude(slug=user)
+        if calendars:
+            calendar_name = calendars[0].name+': '
+        else:
+            calendar_name = ''
+        context.update({'calendar_name': calendar_name})
         context.update({
-            'title' : occurrence.title,
+            'title' : occurrence.title
         })
     else:
         context.update({
             'title' : '',
+            'calendar_name':''
             })
     return context
 

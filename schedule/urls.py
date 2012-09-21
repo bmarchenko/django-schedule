@@ -17,6 +17,10 @@ url(r'^calendar/$',
     name="schedule",
     kwargs={'queryset':Calendar.objects.all(), 'template_name':'schedule/calendar_list.html'}),
 
+url(r'^mycalendars/$',
+    'schedule.views.mycalendars',
+    name="mycalendars"),
+
 url(r'^calendar/year/(?P<calendar_slug>[-\w]+)/$',
     'schedule.views.calendar_by_periods',
     name="year_calendar",
