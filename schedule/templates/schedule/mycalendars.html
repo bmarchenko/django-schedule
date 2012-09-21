@@ -1,0 +1,12 @@
+{% extends "schedule/base.html" %}
+{% load scheduletags %}
+{% block head_title %}Available Calendars{% endblock %}
+{% block body %}
+Your calendars:
+    <ul>
+        {% for cal in object_list %}
+                <li> <a href="{% url month_calendar cal.slug %}">{{ cal }}</a> </li><br/>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
